@@ -26,7 +26,7 @@ function M.watch_file(filename, callback)
     callback(filename, events)
   end
 
-  local result = handle:start(filename, {}, process_events)
+  local result = handle:start(filename, {}, vim.schedule_wrap(process_events))
   if result ~= 0 then
     handle:close()
     return false
@@ -38,15 +38,14 @@ end
 
 --- Stops watching a file
 ---@param filename string
----@return boolean
+---@return nil
 function M.unwatch_file(filename)
   filename = vim.fs.abspath(filename)
   if not handles[filename] then
-    return false
+    return
   end
   handles[filename]:close()
   handles[filename] = nil
-  return true
 end
 
 return M
