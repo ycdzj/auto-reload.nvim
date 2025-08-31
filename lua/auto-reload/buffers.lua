@@ -28,7 +28,10 @@ local function handle_unload(bufnr)
   if filename == '' then
     return
   end
-  watcher.unwatch_file(filename)
+  local ok = watcher.unwatch_file(filename)
+  if not ok then
+    vim.notify('Failed to unwatch file: ' .. filename, vim.log.levels.ERROR)
+  end
 end
 
 vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
