@@ -27,9 +27,8 @@ function M.watch_file(filename, callback)
     end
     if event.rename then
       M.unwatch_file(filename)
-    else
-      callback(filename, event)
     end
+    callback(filename, event)
   end
 
   local result = handle:start(filename, {}, vim.schedule_wrap(process_event))

@@ -47,7 +47,7 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'BufWritePost' }, {
   desc = 'Start watching file when buffer is loaded or written',
 })
 
-vim.api.nvim_create_autocmd('BufUnload', {
+vim.api.nvim_create_autocmd({ 'BufUnload', 'BufFilePre' }, {
   callback = function(args)
     handle_unload(args.buf)
   end,
