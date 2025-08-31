@@ -10,7 +10,9 @@ local M = {}
 function M.watch_file(filename, callback)
   filename = vim.fs.abspath(filename)
   if handles[filename] then
-    return true
+    if not M.unwatch_file(filename) then
+      return false
+    end
   end
 
   local handle = vim.uv.new_fs_event()
@@ -55,10 +57,7 @@ end
 --- Lists all currently watched files
 ---@return string[]
 function M.list_watched_files()
-  local watched_files = {}
-  for filename, _ in pairs(handles) do
-    table.insert(watched_files, filename)
-  end
+  local watched_files = vim.tbl_keys(handles)
   table.sort(watched_files)
   return watched_files
 end

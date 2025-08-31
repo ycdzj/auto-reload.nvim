@@ -12,10 +12,16 @@ end
 
 ---@param bufnr integer
 local function handle_load(bufnr)
+  local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
+  if buftype ~= '' then
+    return
+  end
+
   local filename = vim.api.nvim_buf_get_name(bufnr)
   if filename == '' then
     return
   end
+
   local ok = watcher.watch_file(filename, checktime)
   if not ok then
     vim.notify('Failed to watch file: ' .. filename, vim.log.levels.ERROR)
