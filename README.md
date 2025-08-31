@@ -1,6 +1,6 @@
 # auto-reload.nvim
 
-Auto reload neovim buffers on external file changes.
+Auto reload neovim buffers on external changes.
 
 This plugin automatically watches loaded buffers for file system changes and
 reloads them when they are modified externally.
@@ -34,7 +34,7 @@ It's required to call the `setup` function before using the plugin.
 
 ### Default Configuration
 
-Any options not specified when calling `setup` will use the following defaults:
+Options not specified when calling `setup` will use the following defaults:
 
 ```lua
 {
@@ -47,7 +47,7 @@ Any options not specified when calling `setup` will use the following defaults:
 
 ## Commands
 
-- `:AutoReloadStatus` - Display the current status of the auto-reload plugin.
+- `:AutoReloadStatus` - Display the current status of the plugin.
 
 ## How It Works
 
