@@ -14,7 +14,7 @@ local opts = {
 
 local M = {}
 
----@param new_opts AutoReloadOptions|table
+---@param new_opts AutoReloadOptions
 ---@return nil
 function M.update(new_opts)
   local merged_opts = vim.tbl_deep_extend('force', opts, new_opts)
