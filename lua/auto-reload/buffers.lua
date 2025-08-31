@@ -53,3 +53,9 @@ vim.api.nvim_create_autocmd('BufUnload', {
   end,
   desc = 'Stop watching file when buffer is unloaded',
 })
+
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  callback = function(event)
+    vim.notify('"' .. event.file .. '" changed on disk. Buffer reloaded.', vim.log.levels.INFO)
+  end,
+})
