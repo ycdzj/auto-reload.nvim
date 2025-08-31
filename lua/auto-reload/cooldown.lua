@@ -15,14 +15,19 @@ end
 
 local M = {}
 
---- Executes a callback and cool down for cooldown_ms. If the previous cool-down of the same key
---- hasn't finished, the callback will be scheduled to run after the previous cool-down.
+--- Executes a callback and cool down for cooldown_ms. If the previous cooldown of the same key
+--- hasn't finished, the callback will be scheduled to run after the previous cooldown.
 --- If there's already a pending callback for the same key, it will be replaced with the new one.
 --- @param key string
 --- @param cooldown_ms integer
 --- @param callback fun():nil
 --- @return nil
 function M.call(key, cooldown_ms, callback)
+  if cooldown_ms == 0 then
+    callback()
+    return
+  end
+
   local fn = function()
     callback()
     pending_functions[key] = function() end
