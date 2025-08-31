@@ -1,0 +1,73 @@
+*auto-reload.txt*    Auto reload neovim buffers on external file changes
+
+==============================================================================
+Table of Contents                                    *auto-reload-contents*
+
+1. Introduction.................................|auto-reload-introduction|
+2. Setup........................................|auto-reload-setup|
+3. Configuration................................|auto-reload-configuration|
+4. Commands.....................................|auto-reload-commands|
+5. License......................................|auto-reload-license|
+
+==============================================================================
+1. Introduction                                      *auto-reload-introduction*
+
+auto-reload.nvim automatically reloads Neovim buffers when their corresponding
+files are changed externally. This is useful when working with files that are
+modified by external tools, build systems, or other editors.
+
+The plugin uses `vim.uv` (libuv) to watch file system events efficiently and
+automatically runs `:checktime` to reload them when changes are detected.
+
+==============================================================================
+2. Setup                                             *auto-reload-setup*
+
+Install the plugin using your preferred package manager and call the setup
+function. The `setup()` function must be called before the plugin will work:
+
+>lua
+    require('auto-reload').setup()
+<
+
+Or with custom configuration:
+
+>lua
+    require('auto-reload').setup({
+      reload = {
+        cooldown_ms = 200,  -- Milliseconds between reloads
+      }
+    })
+<
+
+==============================================================================
+3. Configuration                                     *auto-reload-configuration*
+
+The plugin accepts the following configuration options:
+
+*auto-reload-config-reload*
+reload ~
+    Configuration for reload behavior.
+
+    reload.cooldown_ms                              *auto-reload-cooldown-ms*
+        Type: `integer`
+        Default: `100`
+
+        Milliseconds between reloads. This prevents excessive reloading when
+        a file changes multiple times in quick succession. Set to 0 to reload
+        immediately on every file change.
+
+        Must be non-negative.
+
+==============================================================================
+4. Commands                                          *auto-reload-commands*
+
+*:AutoReloadStatus*
+    Display the current status of the auto-reload plugin.
+
+==============================================================================
+5. License                                           *auto-reload-license*
+
+See LICENSE file in the plugin repository.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
