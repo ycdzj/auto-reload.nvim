@@ -1,19 +1,16 @@
----@class AutoReloadReloadConfig
+---@class AutoReloadReloadOptions
 ---@field cooldown_ms integer
 
----@class AutoReloadPollConfig
+---@class AutoReloadPollOptions
 ---@field enable boolean
 ---@field interval_ms integer
 
----@class AutoReloadConfig
----@field enable boolean
----@field reload AutoReloadReloadConfig
----@field poll AutoReloadPollConfig
+---@class AutoReloadOptions
+---@field reload AutoReloadReloadOptions
+---@field poll AutoReloadPollOptions
 
----@type AutoReloadConfig
-local config = {
-  -- Whether this plugin is enabled by default.
-  enable = true,
+---@type AutoReloadOptions
+local opts = {
   reload = {
     -- Milliseconds between reloads. Set to 0 to reload immediately on every file change.
     cooldown_ms = 100,
@@ -29,22 +26,22 @@ local config = {
 
 local M = {}
 
----@param new_config AutoReloadConfig|table
+---@param new_opts AutoReloadOptions|table
 ---@return nil
-function M.update(new_config)
-  local merged_config = vim.tbl_deep_extend('force', config, new_config)
-  if merged_config.reload.cooldown_ms < 0 then
+function M.update(new_opts)
+  local merged_opts = vim.tbl_deep_extend('force', opts, new_opts)
+  if merged_opts.reload.cooldown_ms < 0 then
     error('reload.cooldown_ms must be non-negative')
   end
-  if merged_config.poll.interval_ms < 1000 then
+  if merged_opts.poll.interval_ms < 1000 then
     error('poll.interval_ms must be at least 1000')
   end
-  config = merged_config
+  opts = merged_opts
 end
 
----@return AutoReloadConfig
+---@return AutoReloadOptions
 function M.get()
-  return config
+  return opts
 end
 
 return M

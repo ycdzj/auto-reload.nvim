@@ -49,12 +49,4 @@ function M.unwatch_file(filename)
   return true
 end
 
---- Stops watching all files
----@return nil
-function M.unwatch_all()
-  for filename in pairs(handles) do
-    M.unwatch_file(filename)
-  end
-end
-
 return M
