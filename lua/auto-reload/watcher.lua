@@ -5,7 +5,7 @@ local M = {}
 
 --- Watches a file for changes
 ---@param filename string
----@param callback fun(filename: string, events: uv.fs_event_start.callback.events): nil
+---@param callback fun(filename: string, event: uv.fs_event_start.callback.events): nil
 ---@return boolean
 function M.watch_file(filename, callback)
   filename = vim.fs.abspath(filename)
@@ -20,15 +20,19 @@ function M.watch_file(filename, callback)
     return false
   end
 
-  local process_events = function(err, _, events)
+  local process_event = function(err, _, event)
     if err then
       vim.notify('Error watching file: ' .. filename .. ' - ' .. err, vim.log.levels.ERROR)
       return
     end
-    callback(filename, events)
+    if event.rename then
+      M.unwatch_file(filename)
+    else
+      callback(filename, event)
+    end
   end
 
-  local result = handle:start(filename, {}, vim.schedule_wrap(process_events))
+  local result = handle:start(filename, {}, vim.schedule_wrap(process_event))
   if result ~= 0 then
     handle:close()
     return false
