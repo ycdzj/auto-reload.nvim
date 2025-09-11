@@ -1,11 +1,11 @@
 local config = require('auto-reload.config')
-local cooldown = require('auto-reload.cooldown')
+local debounce = require('auto-reload.debounce')
 local watcher = require('auto-reload.watcher')
 
 ---@param filename string
 local function checktime(filename)
   local cooldown_ms = config.get().reload.cooldown_ms
-  cooldown.call(filename, cooldown_ms, function()
+  debounce.call(filename, cooldown_ms, function()
     vim.cmd('checktime ' .. filename)
   end)
 end
